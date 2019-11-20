@@ -1,0 +1,54 @@
+---
+- name: Gather variables for each operating system
+  ignore_errors: yes
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution | lower }}.yml"
+    - "{{ ansible_os_family | lower }}.yml"
+  tags:
+    - motion_install
+
+- debug:
+    msg: "{{ ansible_distribution | lower }} {{ ansible_distribution_major_version }} {{ ansible_os_family | lower }}"
+
+- block:
+
+  - name: install dependencies
+    become: yes
+    package:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - gdebi
+
+  - name: get release
+    get_url:
+      url: "{{ motion_release_url }}"
+      dest: "/tmp/{{ motion_release }}.deb"
+
+  - name: install release
+    become: yes
+    command:
+      argv:
+      - gdebi
+      - "/tmp/{{ motion_release }}.deb"
+      - -n
+
+  when:
+  - motion_install == "release"
+  tags:
+    - motion_install
+
+- block:
+
+  - name: install motion package
+    become: yes
+    package:
+      name: "{{ motion_package }}"
+      state: "present"
+
+  when:
+  - motion_install == "package"
+  tags:
+    - motion_install

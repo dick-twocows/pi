@@ -1,0 +1,8 @@
+scratch:
+  hosts:
+    scratch_4:
+      ansible_host: 192.168.1.135
+  vars:
+    ansible_user: pi
+    ansible_password: raspberry
+  

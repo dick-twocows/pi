@@ -1,0 +1,8 @@
+
+
+motion_install: "package" # release|package
+
+motion_package: "motion"
+
+motion_release: "pi_buster_motion_4.2.2-1_armhf"
+motion_release_url: "https://github.com/Motion-Project/motion/releases/download/release-4.2.2/{{ motion_release }}.deb"
