@@ -1,0 +1,34 @@
+---
+- name: "Packages"
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: "present"
+  loop:
+  - "python3-pip"
+  - "git"
+
+- name: "FanShim repo"
+  git:
+    repo: "https://github.com/pimoroni/fanshim-python"
+    dest: "{{ ansible_env.HOME }}/pimoroni/fanshim-python"
+
+- name: "Install FanShim Python modules"
+  become: yes
+  command:
+    argv:
+    - "./install.sh"
+    chdir: "{{ ansible_env.HOME }}/pimoroni/fanshim-python"
+
+- name: "Install FanShim Python modules"
+  become: yes
+  command:
+    argv:
+    - "./install-service.sh"
+    - "--on-threshold"
+    - "65"
+    - "--off-threshold"
+    - "55"
+    - "--delay"
+    - "2"
+    chdir: "{{ ansible_env.HOME }}/pimoroni/fanshim-python/examples"

@@ -5,4 +5,12 @@ scratch:
   vars:
     ansible_user: pi
     ansible_password: raspberry
-  
+kubernetes:
+  hosts:
+    worker01:
+      ansible_host: 192.168.1.104
+    worker02:
+      ansible_host: 192.168.1.138
+  vars:
+    ansible_user: pi
+    ansible_password: raspberry
