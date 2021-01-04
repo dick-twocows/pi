@@ -1,0 +1,11 @@
+k8s:
+  hosts:
+    worker01:
+      ansible_host: 192.168.1.135
+      ansible_python_interpreter: python
+    worker02:
+      ansible_host: 192.168.1.82
+  vars:
+    ansible_user: ubuntu
+    ansible_password: Fred1405
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"

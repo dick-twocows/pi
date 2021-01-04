@@ -1,0 +1,36 @@
+---
+- hosts: "all"
+  tasks:
+  - include_role:
+      name: "pi"
+      apply:
+        tags: ["pi"]
+    tags: ["pi"]
+
+  - include_role:
+      name: "hostname"
+      apply:
+        tags: ["hostname"]
+    tags: ["hostname"]
+
+  - name: "FanShim"
+    include_role:
+      name: fan-shim
+      apply:
+        tags: ["fan-shim"]
+    tags: ["fan-shim"]
+
+  - name: "MicroK8s"
+    include_role:
+      name: "microk8s"
+      apply:
+        tags: ["microk8s"]
+    tags: ["microk8s"]
+
+  - name: "Packages"
+    become: yes
+    package:
+      name: "{{ item }}"
+      state: "present"
+    loop: ["stress"]
+    tags: ["packages"]

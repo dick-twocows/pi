@@ -1,0 +1,16 @@
+
+
+- debug:
+    msg: "{{ ansible_distribution }}"
+
+- debug:
+    msg: "{{ ansible_distribution_major_version }}"
+
+- debug:
+    msg: "{{ ansible_distribution_version }}"
+
+- file:
+    state: "link"
+    src: "/usr/bin/python3"
+    dest: "/usr/bin/python"
+  when: "ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'"

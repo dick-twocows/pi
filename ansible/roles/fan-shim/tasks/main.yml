@@ -1,26 +1,23 @@
----
-- name: "Packages"
+- name: "Install required packages"
   become: yes
   package:
     name: "{{ item }}"
     state: "present"
-  loop:
-  - "python3-pip"
-  - "git"
+  loop: ["python3-pip"]
 
-- name: "FanShim repo"
+- name: "Clone FanShim repo"
   git:
     repo: "https://github.com/pimoroni/fanshim-python"
     dest: "{{ ansible_env.HOME }}/pimoroni/fanshim-python"
 
-- name: "Install FanShim Python modules"
+- name: "Run FanShim install"
   become: yes
   command:
     argv:
     - "./install.sh"
     chdir: "{{ ansible_env.HOME }}/pimoroni/fanshim-python"
 
-- name: "Install FanShim Python modules"
+- name: "Install FanShim service"
   become: yes
   command:
     argv:

@@ -1,0 +1,17 @@
+
+- name: "Set hostname"
+  become: true
+  # hostname:
+  #   name: "{{ hostname | default(inventory_hostname) }}"
+  #   use: "systemd"
+  shell:
+    cmd: "hostnamectl set-hostname {{ hostname | default(inventory_hostname) }}"
+  register: hostname_result
+
+- debug:
+    var: hostname_result
+
+- name: "Reboot if hostname changed"
+  become: true
+  reboot:
+  when: hostname_result is changed
